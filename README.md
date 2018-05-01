@@ -21,4 +21,21 @@ optional arguments:
                         number of words should be returned
 ```
 
-## Classes and Functions
+## Module calls
+
+```console
+>>> from script import Poet
+
+>>> Poet("alone")
+<script.Poet object at 0x7f072e1f8d68>
+
+>>> Poet("alone").rhyming_words(3)
+[*] Getting rhyming words for the word:  alone  ...
+[*] Format: (Word, Pronunciation)
+
+( cologne, kuhluh_uun )
+( malone, muhluh_uun )
+( overblown, uh_uuvuhrb_luh_uun )
+>>> 
+```
+
