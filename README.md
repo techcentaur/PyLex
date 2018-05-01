@@ -3,6 +3,8 @@ Python library for playing with words.
 
 ## Usage
 
+#### Help Usage
+
 ```console
 gavy42@jarvis:~/PyPoet$ python3 script.py -h
 usage: script.py [-h] [-r] [-s] [-a] [-n NUMBER] word
@@ -21,21 +23,27 @@ optional arguments:
                         number of words should be returned
 ```
 
-## Module calls
+#### Interpreter Usage
 
-```console
+```python3
 >>> from script import Poet
-
->>> Poet("alone")
-<script.Poet object at 0x7f072e1f8d68>
-
->>> Poet("alone").rhyming_words(3)
-[*] Getting rhyming words for the word:  alone  ...
-[*] Format: (Word, Pronunciation)
-
-( cologne, kuhluh_uun )
-( malone, muhluh_uun )
-( overblown, uh_uuvuhrb_luh_uun )
->>> 
+>>> p = Poet("alone")
+>>> p
+<script.Poet object at 0x7f8c075c5d68>
+>>> wordlist = p.rhyming_words()
+[*] Getting rhyming words for the word: alone...
+>>> p.display_wordlist(wordlist, 4)
+[*] Displaying list; Format: Descending
+cologne
+malone
+overblown
+blown
 ```
 
+#### Functions Usage
+
+After creating an object instance by `Poet(<string>)`
+
+- `rhyming_words()` : Returns a list of words rhyming with the entered word.
+- `synonyms()` : Returns a list of synonyms
+- `antonyms()` : Returns a list of antonyms
