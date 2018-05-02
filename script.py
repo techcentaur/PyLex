@@ -83,6 +83,24 @@ class Poet:
 
 		return wordlist
 
+
+	def meaning(self):
+		string = self.word.split(" ")
+		string = "+".join(string)
+
+		url = "https://www.google.com/search?q="+string
+
+		session = requests.get(url)
+		soup = BeautifulSoup(session.text, "lxml")
+		soup = soup.prettify()
+		div = soup.find("div", {"class": "lr_dct_ent_vmod"})
+
+		ol = div.find_all('ol')
+
+		for new in ol:
+			print(new.text.strip())
+
+
 	def display_wordlist(self, wordlist, num):
 		print("[*] Displaying list; Format: Descending")
 
@@ -100,20 +118,24 @@ if __name__=="__main__":
 	parser.add_argument("-r", "--rhyme", help="get rhyming words", action="store_true")
 	parser.add_argument("-s", "--synonym", help="get synonym", action="store_true")
 	parser.add_argument("-a", "--antonym", help="get antonyms", action="store_true")
+	parser.add_argument("-m", "--meaning", help="get meaning", action="store_true")
 	parser.add_argument("-n", "--number", type=int, help="number of words should be returned", default=50)
 
 	args = parser.parse_args()
 
 	poet = Poet(args.word)
 
-	if (args.rhyme):
+	if args.rhyme:
 		wl = poet.rhyming_words()
 		poet.display_wordlist(wl, args.number)
 
-	if (args.synonym):
+	if args.synonym:
 		wl = poet.synonyms()
 		poet.display_wordlist(wl, args.number)
 
-	if (args.antonym):
+	if args.antonym:
 		wl = poet.antonyms()		
 		poet.display_wordlist(wl, args.number)
+
+	if args.meaning:
+		poet.meaning()
