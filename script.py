@@ -8,8 +8,6 @@ class Poet:
 		self.word = word
 
 	def rhyming_words(self):
-		print("[*] Getting rhyming words for the word:", self.word,"...")
-
 		url = "http://www.b-rhymes.com/rhyme/word/" + self.word
 		raw = requests.get(url)
 
@@ -33,8 +31,6 @@ class Poet:
 
 
 	def synonyms(self):
-		print("[*] Getting synonyms for the word:", self.word, "...")
-
 		url = "http://www.thesaurus.com/browse/" + self.word
 
 		raw = requests.get(url)
@@ -59,8 +55,6 @@ class Poet:
 
 
 	def antonyms(self):
-		print("[*] Getting antonyms for the word:", self.word, "...")
-
 		url = "http://www.thesaurus.com/browse/" + self.word
 
 		raw = requests.get(url)
@@ -86,19 +80,22 @@ class Poet:
 
 	def meaning(self):
 		string = self.word.split(" ")
-		string = "+".join(string)
+		string = "-".join(string)
 
-		url = "https://www.google.com/search?q="+string
-
+		url = "http://www.dictionary.com/browse/"+string
 		session = requests.get(url)
+		
 		soup = BeautifulSoup(session.text, "lxml")
-		soup = soup.prettify()
-		div = soup.find("div", {"class": "lr_dct_ent_vmod"})
+		
+		sec = soup.find_all('section')
+		content = sec[0].find_all("div", {"class": "def-content"})
 
-		ol = div.find_all('ol')
+		meaninglist = []
 
-		for new in ol:
-			print(new.text.strip())
+		for c in content:
+			meaninglist.append(c.text.strip())
+
+		return meaninglist
 
 
 	def display_wordlist(self, wordlist, num):
@@ -126,16 +123,25 @@ if __name__=="__main__":
 	poet = Poet(args.word)
 
 	if args.rhyme:
+		print("[*] Getting rhyming words for the word:", self.word,"...")
+
 		wl = poet.rhyming_words()
 		poet.display_wordlist(wl, args.number)
 
 	if args.synonym:
+		print("[*] Getting synonyms for the word:", self.word, "...")
+
 		wl = poet.synonyms()
 		poet.display_wordlist(wl, args.number)
 
 	if args.antonym:
+		print("[*] Getting antonyms for the word:", self.word, "...")
+
 		wl = poet.antonyms()		
 		poet.display_wordlist(wl, args.number)
 
 	if args.meaning:
-		poet.meaning()
+		print("[*] Fetching meaning of the word...")
+
+		wl = poet.meaning()
+		print((wl[0].split(":")[0]))
