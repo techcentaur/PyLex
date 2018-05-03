@@ -6,8 +6,8 @@ Python library for playing with words.
 #### Help Usage
 
 ```console
-gavy42@jarvis:~/PyPoet$ python3 script.py -h
-usage: script.py [-h] [-r] [-s] [-a] [-n NUMBER] word
+gavy42@jarvis:~/Desktop/github/PyPoet$ python3 script.py -h
+usage: script.py [-h] [-r] [-s] [-a] [-m] [-n NUMBER] word
 
 PyPoet: Play with words
 
@@ -19,6 +19,7 @@ optional arguments:
   -r, --rhyme           get rhyming words
   -s, --synonym         get synonym
   -a, --antonym         get antonyms
+  -m, --meaning         get meaning
   -n NUMBER, --number NUMBER
                         number of words should be returned
 ```
@@ -42,8 +43,9 @@ blown
 
 #### Functions Usage
 
-After creating an object instance by `Poet(<string>)`
+After creating an object instance as `Poet(<string>)`, these functions are available
 
 - `rhyming_words()` : Returns a list of words rhyming with the entered word.
 - `synonyms()` : Returns a list of synonyms
 - `antonyms()` : Returns a list of antonyms
+- `meaning()` : Returns a list of possible meanings
