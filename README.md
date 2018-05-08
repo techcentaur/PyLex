@@ -1,14 +1,16 @@
 # PyPoet
-Python library for playing with words.
+Python library for playing with words, one word at a time.
 
 ## Usage
 
 #### Help Usage
 
 ```console
-usage: script.py [-h] [-r] [-s] [-a] [-m] [-hp] [-hg] [-sa] [-n NUMBER] word
+gavy42@jarvis:~/PyPoet$ python3 script.py -h
+usage: script.py [-h] [-r] [-s] [-a] [-m] [-hp] [-hg] [-sa] [-n NUMBER] [-f]
+                 word
 
-PyPoet: Play with words
+PyPoet: Play with words, one word at a time.
 
 positional arguments:
   word                  an input of the word
@@ -21,9 +23,10 @@ optional arguments:
   -m, --meaning         get meaning
   -hp, --homophones     get homophones
   -hg, --homographs     get homographs
-  -sa, --sounds_alike   get words that sounds alike
+  -sa, --sound_alike    get words that sound alike
   -n NUMBER, --number NUMBER
                         number of words should be returned
+  -f, --full            FULL lexical analysis
 ```
 
 #### Interpreter Usage
@@ -52,5 +55,17 @@ After creating an object instance as `Poet(<string>)`, these functions are avail
 - `antonyms()` : Returns a list of antonyms
 - `meaning()` : Returns a list of possible meanings
 - `homophones()` : Returns a list of homophones
-- 'homographs()' : Returns a list of homographs
-- 'sound_alike()' : Returns a list of words that sound alike the given word
+- `homographs()` : Returns a list of homographs
+- `sound_alike()` : Returns a list of words that sound alike the given word
+
+## PyPoet's Special
+
+- run `python3 script.py <word> -f` to get full lexical analysis of any word, in JSON format
+
+```console
+gavy42@jarvis:~/PyPoet$ python3 script.py alone -f
+[!][!] Starting full analysis of: alone
+
+[*][*] JSON file saved in local directory named - alone_lex_analysis.json
+
+```
