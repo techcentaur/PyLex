@@ -77,6 +77,25 @@ class Poet:
 
 		return wordlist
 
+	def sound_alike(self):
+		templist = []
+		wordlist = []
+		url = "https://api.datamuse.com/words?sl=" + self.word
+
+		data = requests.get(url)
+
+		for dlist in data:
+			dlist = dlist.decode("utf-8")
+			templist.append(dlist)
+
+		string = "".join(templist)
+		strdict = ast.literal_eval(string)
+
+		for dlist in strdict:
+			wordlist.append(dlist['word'])
+		
+		return wordlist
+
 
 	def homophones(self):
 		wordlist = []
@@ -92,6 +111,20 @@ class Poet:
 
 		return wordlist
 
+	def homographs(self):
+		wordlist = []
+		url = "http://www.roget.org/BRIAN0.html"
+
+		raw = requests.get(url)
+		soup = BeautifulSoup(raw.text, "lxml")
+		rows = soup.find_all('tr')
+
+		for row in rows:			
+			cols = row.find_all('td')
+			cols = [x.text.strip() for x in cols]
+
+			print(cols)
+		
 	def meaning(self):
 		string = self.word.split(" ")
 		string = "-".join(string)
@@ -126,11 +159,16 @@ class Poet:
 if __name__=="__main__":
 	parser = argparse.ArgumentParser(description='PyPoet: Play with words')
 	parser.add_argument("word", help="an input of the word")
+
 	parser.add_argument("-r", "--rhyme", help="get rhyming words", action="store_true")
 	parser.add_argument("-s", "--synonym", help="get synonym", action="store_true")
 	parser.add_argument("-a", "--antonym", help="get antonyms", action="store_true")
 	parser.add_argument("-m", "--meaning", help="get meaning", action="store_true")
-	parser.add_argument("-ho", "--homophones", help="get homophones", action="store_true")
+
+	parser.add_argument("-hp", "--homophones", help="get homophones", action="store_true")
+	parser.add_argument("-hg", "--homographs", help="get homographs", action="store_true")
+	parser.add_argument("-sa", "--sound_alike", help="get words that sound alike", action="store_true")
+
 	parser.add_argument("-n", "--number", type=int, help="number of words should be returned", default=50)
 
 	args = parser.parse_args()
@@ -159,6 +197,17 @@ if __name__=="__main__":
 		print("[*] Getting homophones for the word:", args.word, "...")
 		print("[!] Homophones are words that sound identical but are written differently [!]\n")
 		wl = poet.homophones()		
+		poet.display_wordlist(wl, args.number)
+
+	if args.homographs:
+		print("[*] Getting homographs for the word:", args.word, "...")
+		print("[!] Homographs are words that spelled identical but have different meaning [!]\n")
+		wl = poet.homographs()		
+		poet.display_wordlist(wl, args.number)
+
+	if args.sound_alike:
+		print("[*] Getting words that sound alike with :", args.word, "...\n")
+		wl = poet.sound_alike()		
 		poet.display_wordlist(wl, args.number)
 
 
