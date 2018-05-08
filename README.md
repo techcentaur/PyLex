@@ -7,7 +7,7 @@ Python library for playing with words.
 
 ```console
 gavy42@jarvis:~/Desktop/github/PyPoet$ python3 script.py -h
-usage: script.py [-h] [-r] [-s] [-a] [-m] [-n NUMBER] word
+usage: script.py [-h] [-r] [-s] [-a] [-m] [-ho] [-n NUMBER] word
 
 PyPoet: Play with words
 
@@ -20,6 +20,7 @@ optional arguments:
   -s, --synonym         get synonym
   -a, --antonym         get antonyms
   -m, --meaning         get meaning
+  -ho, --homophones     get homophones
   -n NUMBER, --number NUMBER
                         number of words should be returned
 ```
@@ -49,3 +50,4 @@ After creating an object instance as `Poet(<string>)`, these functions are avail
 - `synonyms()` : Returns a list of synonyms
 - `antonyms()` : Returns a list of antonyms
 - `meaning()` : Returns a list of possible meanings
+- `homophones()` : Returns a list of homophones
