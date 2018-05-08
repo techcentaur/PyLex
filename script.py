@@ -1,7 +1,7 @@
+import ast
 import requests
 import argparse
 from bs4 import BeautifulSoup
-
 
 class Poet:
 	def __init__(self, word):
@@ -78,6 +78,20 @@ class Poet:
 		return wordlist
 
 
+	def homophones(self):
+		wordlist = []
+		url = "https://api.datamuse.com/words?rel_hom=" + self.word
+
+		data = requests.get(url)
+
+		for dlist in data:
+			dlist = ast.literal_eval(dlist.decode("utf-8"))
+
+			for d in dlist:
+				wordlist.append(d["word"])
+
+		return wordlist
+
 	def meaning(self):
 		string = self.word.split(" ")
 		string = "-".join(string)
@@ -116,6 +130,7 @@ if __name__=="__main__":
 	parser.add_argument("-s", "--synonym", help="get synonym", action="store_true")
 	parser.add_argument("-a", "--antonym", help="get antonyms", action="store_true")
 	parser.add_argument("-m", "--meaning", help="get meaning", action="store_true")
+	parser.add_argument("-ho", "--homophones", help="get homophones", action="store_true")
 	parser.add_argument("-n", "--number", type=int, help="number of words should be returned", default=50)
 
 	args = parser.parse_args()
@@ -123,22 +138,29 @@ if __name__=="__main__":
 	poet = Poet(args.word)
 
 	if args.rhyme:
-		print("[*] Getting rhyming words for the word:", self.word,"...")
+		print("[*] Getting rhyming words for the word:", args.word,"...")
 
 		wl = poet.rhyming_words()
 		poet.display_wordlist(wl, args.number)
 
 	if args.synonym:
-		print("[*] Getting synonyms for the word:", self.word, "...")
+		print("[*] Getting synonyms for the word:", args.word, "...")
 
 		wl = poet.synonyms()
 		poet.display_wordlist(wl, args.number)
 
 	if args.antonym:
-		print("[*] Getting antonyms for the word:", self.word, "...")
+		print("[*] Getting antonyms for the word:", args.word, "...")
 
 		wl = poet.antonyms()		
 		poet.display_wordlist(wl, args.number)
+
+	if args.homophones:
+		print("[*] Getting homophones for the word:", args.word, "...")
+		print("[!] Homophones are words that sound identical but are written differently [!]\n")
+		wl = poet.homophones()		
+		poet.display_wordlist(wl, args.number)
+
 
 	if args.meaning:
 		print("[*] Fetching meaning of the word...")
