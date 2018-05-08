@@ -1,10 +1,11 @@
 import ast
+import click
 import json
 import requests
 import argparse
 from bs4 import BeautifulSoup
 
-class Poet:
+class Lex:
 	def __init__(self, word):
 		self.word = word
 
@@ -158,7 +159,7 @@ class Poet:
 
 
 if __name__=="__main__":
-	parser = argparse.ArgumentParser(description='PyPoet: Play with words')
+	parser = argparse.ArgumentParser(description='PyLex: Perform lexical analysis, one word at a time.')
 	parser.add_argument("word", help="an input of the word")
 
 	parser.add_argument("-r", "--rhyme", help="get rhyming words", action="store_true")
@@ -170,81 +171,84 @@ if __name__=="__main__":
 	parser.add_argument("-hg", "--homographs", help="get homographs", action="store_true")
 	parser.add_argument("-sa", "--sound_alike", help="get words that sound alike", action="store_true")
 
-	parser.add_argument("-n", "--number", type=int, help="number of words should be returned", default=50)
+	parser.add_argument("-n", "--number", type=int, help="number of words need to be returned", default=50)
 
 	parser.add_argument("-f", "--full", help="FULL lexical analysis", action="store_true")
 
 
 	args = parser.parse_args()
 
-	poet = Poet(args.word)
+	lex = Lex(args.word)
 
 	if args.rhyme:
 		print("[*] Getting rhyming words for the word:", args.word,"...")
 
-		wl = poet.rhyming_words()
-		poet.display_wordlist(wl, args.number)
+		wl = lex.rhyming_words()
+		lex.display_wordlist(wl, args.number)
 
 	if args.synonym:
 		print("[*] Getting synonyms for the word:", args.word, "...")
 
-		wl = poet.synonyms()
-		poet.display_wordlist(wl, args.number)
+		wl = lex.synonyms()
+		lex.display_wordlist(wl, args.number)
 
 	if args.antonym:
 		print("[*] Getting antonyms for the word:", args.word, "...")
 
-		wl = poet.antonyms()		
-		poet.display_wordlist(wl, args.number)
+		wl = lex.antonyms()		
+		lex.display_wordlist(wl, args.number)
 
 	if args.homophones:
 		print("[*] Getting homophones for the word:", args.word, "...")
 		print("[!] Homophones are words that sound identical but are written differently [!]\n")
-		wl = poet.homophones()		
-		poet.display_wordlist(wl, args.number)
+		wl = lex.homophones()		
+		lex.display_wordlist(wl, args.number)
 
 	# if args.homographs:
 	# 	print("[*] Getting homographs for the word:", args.word, "...")
 	# 	print("[!] Homographs are words that spelled identical but have different meaning [!]\n")
-	# 	wl = poet.homographs()		
-	# 	poet.display_wordlist(wl, args.number)
+	# 	wl = lex.homographs()		
+	# 	lex.display_wordlist(wl, args.number)
 
 	if args.sound_alike:
 		print("[*] Getting words that sound alike with :", args.word, "...\n")
-		wl = poet.sound_alike()		
-		poet.display_wordlist(wl, args.number)
+		wl = lex.sound_alike()		
+		lex.display_wordlist(wl, args.number)
 
 	if args.meaning:
 		print("[*] Fetching meaning of the word...")
-		wl = poet.meaning()
+		wl = lex.meaning()
 		print((wl[0].split(":")[0]))
 
 	if args.full:
 		print('[!][!] Starting full analysis of:', args.word)
 		analysis_dict = {}
 
-		wl = poet.meaning()
-		analysis_dict['meaning'] = (wl[0].split(":")[0])
+		wl = lex.meaning()
+		if len(wl) == 0:
+			analysis_dict['meaning'] = []
+		else:
+			analysis_dict['meaning'] = (wl[0].split(":")[0])
 
-		wl = poet.synonyms()
+		wl = lex.synonyms()
 		analysis_dict['synonyms'] = wl
 
-		wl = poet.antonyms()
+		wl = lex.antonyms()
 		analysis_dict['antonyms'] = wl
 
-		wl = poet.homophones()
+		wl = lex.homophones()
 		analysis_dict['homophones'] = wl
 
-		# wl = poet.homographs()
+		# wl = lex.homographs()
 		# analysis_dict['homographs'] = wl
 
-		wl = poet.sound_alike()
+		wl = lex.sound_alike()
 		analysis_dict['sound_alike'] = wl
 
-		wl = poet.rhyming_words()
+		wl = lex.rhyming_words()
 		analysis_dict['rhyming_words'] = wl
 
 		with open(args.word + "_lex_analysis.json", 'w') as outfile:
-			json.dump(analysis_dict, outfile)			
+			json.dump(analysis_dict, outfile, indent=4)			
 
 		print('\n[*][*] JSON file saved in local directory named - ' + args.word + "_lex_analysis.json")
