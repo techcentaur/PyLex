@@ -6,8 +6,7 @@ Python library for playing with words.
 #### Help Usage
 
 ```console
-gavy42@jarvis:~/Desktop/github/PyPoet$ python3 script.py -h
-usage: script.py [-h] [-r] [-s] [-a] [-m] [-ho] [-n NUMBER] word
+usage: script.py [-h] [-r] [-s] [-a] [-m] [-hp] [-hg] [-sa] [-n NUMBER] word
 
 PyPoet: Play with words
 
@@ -20,7 +19,9 @@ optional arguments:
   -s, --synonym         get synonym
   -a, --antonym         get antonyms
   -m, --meaning         get meaning
-  -ho, --homophones     get homophones
+  -hp, --homophones     get homophones
+  -hg, --homographs     get homographs
+  -sa, --sounds_alike   get words that sounds alike
   -n NUMBER, --number NUMBER
                         number of words should be returned
 ```
@@ -51,3 +52,5 @@ After creating an object instance as `Poet(<string>)`, these functions are avail
 - `antonyms()` : Returns a list of antonyms
 - `meaning()` : Returns a list of possible meanings
 - `homophones()` : Returns a list of homophones
+- 'homographs()' : Returns a list of homographs
+- 'sound_alike()' : Returns a list of words that sound alike the given word
