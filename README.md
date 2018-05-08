@@ -1,16 +1,16 @@
-# PyPoet
-Python library for playing with words, one word at a time.
+# PyLex
+Python3 library for performing lexical analysis on words, one word at a time.
 
 ## Usage
 
 #### Help Usage
 
 ```console
-gavy42@jarvis:~/PyPoet$ python3 script.py -h
+gavy42@jarvis:~/PyLex$ python3 script.py -h
 usage: script.py [-h] [-r] [-s] [-a] [-m] [-hp] [-hg] [-sa] [-n NUMBER] [-f]
                  word
 
-PyPoet: Play with words, one word at a time.
+PyLex: Perform lexical analysis, one word at a time.
 
 positional arguments:
   word                  an input of the word
@@ -32,13 +32,13 @@ optional arguments:
 #### Interpreter Usage
 
 ```python3
->>> from script import Poet
->>> p = Poet("alone")
->>> p
-<script.Poet object at 0x7f8c075c5d68>
->>> wordlist = p.rhyming_words()
+>>> from script import Lex
+>>> lex = Lex("alone")
+>>> lex
+<script.Lex object at 0x7f8c075c5d68>
+>>> wordlist = lex.rhyming_words()
 [*] Getting rhyming words for the word: alone...
->>> p.display_wordlist(wordlist, 4)
+>>> lex.display_wordlist(wordlist, 4)
 [*] Displaying list; Format: Descending
 cologne
 malone
@@ -48,7 +48,7 @@ blown
 
 #### Functions Usage
 
-After creating an object instance as `Poet(<string>)`, these functions are available
+After creating an object instance as `Lex(<string>)`, these functions are available
 
 - `rhyming_words()` : Returns a list of words rhyming with the entered word.
 - `synonyms()` : Returns a list of synonyms
@@ -58,12 +58,13 @@ After creating an object instance as `Poet(<string>)`, these functions are avail
 - `homographs()` : Returns a list of homographs
 - `sound_alike()` : Returns a list of words that sound alike the given word
 
-## PyPoet's Special
+## PyLex Full Analysis
 
-- run `python3 script.py <word> -f` to get full lexical analysis of any word, in JSON format
+- Run `python3 script.py <word> -f` to get full lexical analysis of any word.
+- Returns a JSON format file with contained information.
 
 ```console
-gavy42@jarvis:~/PyPoet$ python3 script.py alone -f
+gavy42@jarvis:~/PyLex$ python3 script.py alone -f
 [!][!] Starting full analysis of: alone
 
 [*][*] JSON file saved in local directory named - alone_lex_analysis.json
