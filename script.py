@@ -1,4 +1,5 @@
 import ast
+import json
 import requests
 import argparse
 from bs4 import BeautifulSoup
@@ -111,19 +112,19 @@ class Poet:
 
 		return wordlist
 
-	def homographs(self):
-		wordlist = []
-		url = "http://www.roget.org/BRIAN0.html"
+	# def homographs(self):
+	# 	wordlist = []
+	# 	url = "http://www.roget.org/BRIAN0.html"
 
-		raw = requests.get(url)
-		soup = BeautifulSoup(raw.text, "lxml")
-		rows = soup.find_all('tr')
+	# 	raw = requests.get(url)
+	# 	soup = BeautifulSoup(raw.text, "lxml")
+	# 	rows = soup.find_all('tr')
 
-		for row in rows:			
-			cols = row.find_all('td')
-			cols = [x.text.strip() for x in cols]
+	# 	for row in rows:			
+	# 		cols = row.find_all('td')
+	# 		cols = [x.text.strip() for x in cols]
 
-			print(cols)
+	# 		print(cols)
 		
 	def meaning(self):
 		string = self.word.split(" ")
@@ -171,6 +172,9 @@ if __name__=="__main__":
 
 	parser.add_argument("-n", "--number", type=int, help="number of words should be returned", default=50)
 
+	parser.add_argument("-f", "--full", help="FULL lexical analysis", action="store_true")
+
+
 	args = parser.parse_args()
 
 	poet = Poet(args.word)
@@ -199,20 +203,48 @@ if __name__=="__main__":
 		wl = poet.homophones()		
 		poet.display_wordlist(wl, args.number)
 
-	if args.homographs:
-		print("[*] Getting homographs for the word:", args.word, "...")
-		print("[!] Homographs are words that spelled identical but have different meaning [!]\n")
-		wl = poet.homographs()		
-		poet.display_wordlist(wl, args.number)
+	# if args.homographs:
+	# 	print("[*] Getting homographs for the word:", args.word, "...")
+	# 	print("[!] Homographs are words that spelled identical but have different meaning [!]\n")
+	# 	wl = poet.homographs()		
+	# 	poet.display_wordlist(wl, args.number)
 
 	if args.sound_alike:
 		print("[*] Getting words that sound alike with :", args.word, "...\n")
 		wl = poet.sound_alike()		
 		poet.display_wordlist(wl, args.number)
 
-
 	if args.meaning:
 		print("[*] Fetching meaning of the word...")
-
 		wl = poet.meaning()
 		print((wl[0].split(":")[0]))
+
+	if args.full:
+		print('[!][!] Starting full analysis of:', args.word)
+		analysis_dict = {}
+
+		wl = poet.meaning()
+		analysis_dict['meaning'] = (wl[0].split(":")[0])
+
+		wl = poet.synonyms()
+		analysis_dict['synonyms'] = wl
+
+		wl = poet.antonyms()
+		analysis_dict['antonyms'] = wl
+
+		wl = poet.homophones()
+		analysis_dict['homophones'] = wl
+
+		# wl = poet.homographs()
+		# analysis_dict['homographs'] = wl
+
+		wl = poet.sound_alike()
+		analysis_dict['sound_alike'] = wl
+
+		wl = poet.rhyming_words()
+		analysis_dict['rhyming_words'] = wl
+
+		with open(args.word + "_lex_analysis.json", 'w') as outfile:
+			json.dump(analysis_dict, outfile)			
+
+		print('\n[*][*] JSON file saved in local directory named - ' + args.word + "_lex_analysis.json")
