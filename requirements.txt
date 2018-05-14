@@ -1,4 +1,7 @@
 ast
+json
 requests
 argparse
 bs4
+click
+lxml
