@@ -7,7 +7,7 @@ Python3 library for performing lexical analysis on words, one word at a time.
 
 ```console
 gavy42@jarvis:~/PyLex$ python3 script.py -h
-usage: script.py [-h] [-r] [-s] [-a] [-m] [-hp] [-hg] [-sa] [-n NUMBER] [-f]
+usage: script.py [-h] [-r] [-s] [-a] [-m] [-hg] [-sa] [-n NUMBER] [-f]
                  word
 
 PyLex: Perform lexical analysis, one word at a time.
@@ -21,7 +21,6 @@ optional arguments:
   -s, --synonym         get synonym
   -a, --antonym         get antonyms
   -m, --meaning         get meaning
-  -hp, --homophones     get homophones
   -hg, --homographs     get homographs
   -sa, --sound_alike    get words that sound alike
   -n NUMBER, --number NUMBER
@@ -70,3 +69,9 @@ gavy42@jarvis:~/PyLex$ python3 script.py alone -f
 [*][*] JSON file saved in local directory named - alone_lex_analysis.json
 
 ```
+
+### Note
+- Program makes calls to external website to gather the information and scrapes content wherever needed.
+
+## Support
+If you have any trouble understading some part of the code, feel free to raise an issue or for contributing, feel free to make a pull request.
