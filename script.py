@@ -169,8 +169,8 @@ if __name__=="__main__":
 	parser.add_argument("-a", "--antonym", help="get antonyms", action="store_true")
 	parser.add_argument("-m", "--meaning", help="get meaning", action="store_true")
 
-	# parser.add_argument("-hp", "--homophones", help="get homophones", action="store_true")
-	parser.add_argument("-hg", "--homographs", help="get homographs", action="store_true")
+	parser.add_argument("-hp", "--homophones", help="get homophones", action="store_true")
+	# parser.add_argument("-hg", "--homographs", help="get homographs", action="store_true")
 	parser.add_argument("-sa", "--sound_alike", help="get words that sound alike", action="store_true")
 
 	parser.add_argument("-n", "--number", type=int, help="number of words need to be returned", default=50)
